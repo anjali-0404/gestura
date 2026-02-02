@@ -1,5 +1,5 @@
 {
-  "name": "Flutter + Python (Manual Install)",
+  "name": "Flutter + FastAPI",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/python:1": {
@@ -7,11 +7,5 @@
     }
   },
   "forwardPorts": [8000, 3000],
-  "postCreateCommand": [
-    "sudo apt-get update",
-    "sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa",
-    "git clone https://github.com/flutter/flutter.git -b stable /opt/flutter",
-    "echo 'export PATH=/opt/flutter/bin:$PATH' >> ~/.bashrc",
-    "pip install fastapi uvicorn"
-  ]
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa && git clone https://github.com/flutter/flutter.git -b stable /opt/flutter && echo 'export PATH=/opt/flutter/bin:$PATH' >> /etc/profile && pip install fastapi uvicorn"
 }

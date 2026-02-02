@@ -21,7 +21,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> fetchMessage() async {
-    final url = Uri.parse('http://127.0.0.1:8000/');
+
+    const backendBaseUrl = String.fromEnvironment(
+      'BACKEND_URL',
+      defaultValue: 'http://localhost:8000',
+    );
+    final url = Uri.parse('$backendBaseUrl/');
+
     final response = await http.get(url);
     if (response.statusCode == 200) {
       setState(() {

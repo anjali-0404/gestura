@@ -1,0 +1,55 @@
+# docker-compose.yml - Docker configuration for URable backend
+version: '3.8'
+
+services:
+  # Node.js Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: urable-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - CLIENT_URL=http://localhost:5173
+    volumes:
+      - ./uploads:/app/uploads
+      - ./SignLanguageDetectionUsingCNN-main:/app/SignLanguageDetectionUsingCNN-main
+    depends_on:
+      - mongodb
+    networks:
+      - urable-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # MongoDB Service (for future use)
+  mongodb:
+    image: mongo:6.0
+    container_name: urable-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=urable
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - urable-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  urable-network:
+    driver: bridge

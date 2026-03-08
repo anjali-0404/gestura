@@ -3,7 +3,13 @@ import axios from 'axios';
 import type { AxiosInstance, AxiosError } from 'axios';
 import type { ApiResponse, DetectionResult, HealthCheckResponse } from '../types/detection';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// Ensure API base URL includes `/api` so frontend routes match server routes
+// (server defines endpoints like /api/health and /api/detect).
+const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl.replace(/\/+$/, '')}/api`;
+
+// Debug: log the resolved API base URL (helps validate env variable and build-time values)
+console.log('API_BASE_URL:', API_BASE_URL);
 
 class ApiClient {
   private client: AxiosInstance;

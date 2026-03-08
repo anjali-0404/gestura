@@ -19,7 +19,10 @@ class MLService extends EventEmitter {
         console.log('启动 ML Persistent Worker...');
         const scriptPath = path.resolve(config.pythonScriptPath);
 
-        this.worker = spawn('python', [scriptPath]);
+        // Some environments (like slim Docker images) only provide `python3`, not `python`.
+        // Allow overriding via PYTHON_CMD for maximum portability.
+        const pythonCmd = process.env.PYTHON_CMD || 'python3';
+        this.worker = spawn(pythonCmd, [scriptPath]);
 
         this.worker.stdout.on('data', (data) => {
             const output = data.toString().trim();

@@ -10,7 +10,7 @@ export const CameraDetection = () => {
   const { videoRef, canvasRef, isActive, error: cameraError, startCamera, stopCamera, captureFrame } = useCamera();
   const { result, loading, error: detectionError, detectFromStream, clearResult } = useDetection();
   const [isDetecting, setIsDetecting] = useState(false);
-  const detectionIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const detectionIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const handleStartCamera = async () => {
     await startCamera();

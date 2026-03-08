@@ -11,7 +11,8 @@ model_dir = Path(__file__).parent
 sys.path.insert(0, str(model_dir))
 
 def load_model():
-    model_path = model_dir / 'signlanguagedetectionmodel48x48.h5'
+    model_path = model_dir / 'best_asl_model.h5'
+    # model_path = model_dir / 'signlanguagedetectionmodel48x48.h5'
     if model_path.exists():
         return tf.keras.models.load_model(str(model_path))
     else:

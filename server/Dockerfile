@@ -21,10 +21,11 @@ RUN npm ci --only=production
 # Copy Python requirements first for better caching
 COPY SignLanguageDetectionUsingCNN-main/requirements.txt ./SignLanguageDetectionUsingCNN-main/
 
-# Install Python dependencies (Using tensorflow-cpu to save space/RAM if possible)
+# Install Python dependencies with specific versions to avoid numpy compatibility issues
 # Note: Render free tier has limited RAM. we might need to use a smaller TF version or tensorflow-cpu
-RUN pip3 install --no-cache-dir -r SignLanguageDetectionUsingCNN-main/requirements.txt \
-    && pip3 install --no-cache-dir --upgrade --force-reinstall "numpy<2.0.0"
+RUN pip3 install --no-cache-dir --upgrade pip \
+    && pip3 install --no-cache-dir "numpy==1.24.3" \
+    && pip3 install --no-cache-dir -r SignLanguageDetectionUsingCNN-main/requirements.txt
 
 # Copy application files
 COPY . .

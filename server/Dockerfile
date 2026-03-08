@@ -23,7 +23,8 @@ COPY SignLanguageDetectionUsingCNN-main/requirements.txt ./SignLanguageDetection
 
 # Install Python dependencies (Using tensorflow-cpu to save space/RAM if possible)
 # Note: Render free tier has limited RAM. we might need to use a smaller TF version or tensorflow-cpu
-RUN pip3 install --no-cache-dir -r SignLanguageDetectionUsingCNN-main/requirements.txt
+RUN pip3 install --no-cache-dir -r SignLanguageDetectionUsingCNN-main/requirements.txt \
+    && pip3 install --no-cache-dir --upgrade --force-reinstall "numpy<2.0.0"
 
 # Copy application files
 COPY . .
